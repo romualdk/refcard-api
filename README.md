@@ -24,6 +24,8 @@ Make sure the right content type like Content-Type: application/json; charset=ut
 
 ### Single match
 
+`time` is elapsed time in seconds
+
 ```JSON
 {
   "id": 0,
@@ -38,7 +40,7 @@ Make sure the right content type like Content-Type: application/json; charset=ut
     "image": null
   },
   "date": "2020-10-24",
-  "time": 1448, // elapsed time in seconds
+  "time": 1448,
   "ongoing": false,
   "archived": false,
   "notes": "VIII kolejka 24-25.X.2020",
