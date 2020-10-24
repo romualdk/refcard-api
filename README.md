@@ -29,7 +29,7 @@ Make sure the right content type like Content-Type: application/json; charset=ut
 ```JSON
 {
   "game": {
-    "slug": "20201024-1315-sznajder-megameble-plsp-os-pruszkow",
+    "slug": "202010241315-sznajder-megameble-plsp-os-pruszkow",
     "createdAt": "2020-10-24T09:22:56.637Z",
     "updatedAt": "2020-10-24T09:58:51.128Z",
     "author": {
