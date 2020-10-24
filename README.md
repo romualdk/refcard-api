@@ -26,6 +26,8 @@ Make sure the right content type like Content-Type: application/json; charset=ut
 
 `time` is in seconds
 
+file: `2020-10-24_1315 - Sznajder Megameble - PLSP-OS Pruszkow`
+
 ```JSON
 {
   "game": {
@@ -34,8 +36,7 @@ Make sure the right content type like Content-Type: application/json; charset=ut
     "updatedAt": "2020-10-24T09:58:51.128Z",
     "author": {
       "email": "grzesiek@example.com",
-      "name": "Grzegorz",
-      "surname": "Ślusarczyk"
+      "name": "Grzesiek (Kings)"
     },
     "date": "2020-10-24T13:15:00.000Z",
     "time": 1448,
@@ -44,6 +45,7 @@ Make sure the right content type like Content-Type: application/json; charset=ut
     "league": {
       "slug": "plsp-os",
       "name": "Pruszkowska Liga Szóstek Piłkarskich - Osiedle Staszica",
+      "email": "liga.szostek.pruszkow@gmail.com",
       "city": "Pruszków"
     },
     "season": { "name": "VIII kolejka 24-25.X.2020" },
@@ -61,7 +63,7 @@ Make sure the right content type like Content-Type: application/json; charset=ut
         { "name": "Czubek Dominik" },
         { "name": "Grabowski Marcin" },
         { "name": "Protasiuk Robert" },
-        { "name": " RutkaKamil" },
+        { "name": "RutkaKamil" },
         { "name": "Stachowicz Marcin" },
         { "name": "Sęp Michał" },
         { "name": "Wiśniewski Artur" }
