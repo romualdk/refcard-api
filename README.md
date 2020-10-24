@@ -46,12 +46,8 @@ Make sure the right content type like Content-Type: application/json; charset=ut
       "name": "Pruszkowska Liga Szóstek Piłkarskich - Osiedle Staszica",
       "city": "Pruszków"
     },
-    "season": {
-      "name": "VIII kolejka 24-25.X.2020"
-    },
-    "referee": {
-      "name": "Grzesiek Kings"
-    },
+    "season": { "name": "VIII kolejka 24-25.X.2020" },
+    "referee": { "name": "Grzesiek Kings" },
     "notes": "",
     "score": {
       "team1": 0,
