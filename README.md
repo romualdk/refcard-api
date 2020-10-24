@@ -26,7 +26,7 @@ Make sure the right content type like Content-Type: application/json; charset=ut
 
 `time` is in seconds
 
-file: `2020-10-24_1315 - Sznajder Megameble - PLSP-OS Pruszkow`
+file: `2020-10-24_1315 Sznajder Megameble PLSP-OS Pruszkow.xml`
 
 ```JSON
 {
