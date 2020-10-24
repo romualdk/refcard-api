@@ -42,7 +42,7 @@ Make sure the right content type like Content-Type: application/json; charset=ut
     "ongoing": false,
     "archived": false,
     "league": {
-      "code": "plsp-os",
+      "slug": "plsp-os",
       "name": "Pruszkowska Liga Szóstek Piłkarskich - Osiedle Staszica",
       "city": "Pruszków"
     },
