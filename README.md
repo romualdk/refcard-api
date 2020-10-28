@@ -1,121 +1,111 @@
-# refcard-api
 
-## API
 
-Based on https://github.com/gothinkster/realworld/tree/master/api
 
-## JSON Objects returned by API:
+## Local dev
 
-Make sure the right content type like Content-Type: application/json; charset=utf-8 is correctly returned.
+### Usage
 
-### User
+### Launch machine
+Run in terminal
 
-```JSON
-{
-  "user": {
-    "email": "r.kowalczyk@example.com",
-    "token": "jwt.token.here",
-    "name": "Romuald",
-    "surname": "Kowalczyk",
-    "image": null
-  }
-}
+```
+cd %userprofile%\Homestead
+vagrant up
 ```
 
-### Single game
+After machine launch connect with SSH
+and go to project catalog.
 
-`time` is in seconds
+### Close machine
 
-file: `2020-10-24_1315 Sznajder Megameble PLSP-OS Pruszkow.xml`
-
-```JSON
-{
-  "game": {
-    "slug": "202010241315-sznajder-megameble-plsp-os-pruszkow",
-    "createdAt": "2020-10-24T09:22:56.637Z",
-    "updatedAt": "2020-10-24T09:58:51.128Z",
-    "author": {
-      "email": "grzesiek@example.com",
-      "name": "Grzesiek (Kings)"
-    },
-    "date": "2020-10-24T13:15:00.000Z",
-    "time": 1448,
-    "ongoing": false,
-    "archived": false,
-    "league": {
-      "slug": "plsp-os",
-      "name": "Pruszkowska Liga Szóstek Piłkarskich - Osiedle Staszica",
-      "email": "liga.szostek.pruszkow@gmail.com",
-      "city": "Pruszków"
-    },
-    "season": { "name": "VIII kolejka 24-25.X.2020" },
-    "referee": { "name": "Grzesiek Kings" },
-    "notes": "",
-    "score": {
-      "team1": 0,
-      "team2": 1
-    },
-    "team1": {
-      "slug": "sznajder",
-      "name": "Sznajder",
-      "players": [
-        { "name": "Chodowski Łukasz" },
-        { "name": "Czubek Dominik" },
-        { "name": "Grabowski Marcin" },
-        { "name": "Protasiuk Robert" },
-        { "name": "RutkaKamil" },
-        { "name": "Stachowicz Marcin" },
-        { "name": "Sęp Michał" },
-        { "name": "Wiśniewski Artur" }
-      ]
-    },
-    "team2": {
-      "slug": "megameble",
-      "name": "Megameble",
-      "players": [
-        { "name": "Czerny Konrad" },
-        { "name": "Czerny Krzysztof" },
-        { "name": "Jerdal Rafał" },
-        { "name": "Maciejec Kuba" },
-        { "name": "Sterlus Paweł" },
-        { "name": "Sztyk Mateusz" },
-        { "name": "Sztyk Piotr" },
-        { "name": "Zalewski Piotrek" },
-        { "name": "Łata Tomasz" }
-      ]
-    },
-    "events": [
-      {
-        "createdAt": "2020-10-24T09:22:56.637Z",
-        "time": 0,
-        "type": "start",
-        "player": null,
-        "team": null
-      },
-      {
-        "createdAt": "2020-10-24T09:36:56.637Z",
-        "time": 0,
-        "type": "goal",
-        "player": { "name": "Sztyk Mateusz" },
-        "team": { "name": "Megameble" }
-      },
-      {
-        "createdAt": "2020-10-24T09:41:51.364Z",
-        "time": 0,
-        "type": "penalty5min",
-        "player": { "name": "Czubek Dominik" },
-        "team": { "name": "Sznajder" }
-      }
-    ]
-  }
-}
 ```
-### Multiple games
-
-```JSON
-{
-  "games": [
-   
-  ]
-}
+vagrant halt
 ```
+
+### Connect to machine
+```
+vagrant ssh
+```
+
+```
+cd ~/code/refcard-backend
+```
+
+### Install components
+
+```
+cd ~/code/refcard-backend
+composer install
+```
+
+### Reload machine
+
+I.e. after changes to `Homestead.yaml`
+
+```
+vagrant reload --provision
+```
+
+
+### Open website
+
+```
+http://192.168.10.10/api/example
+```
+
+### Prerequisites
+
+`Homestead Virtual Machine` with full PHP environment.
+
+* Virtual Box
+* Vagrant
+  https://www.vagrantup.com/
+* Homestead VM
+  https://laravel.com/docs/8.x/homestead
+
+Install Homestead in `%userprofile%\Homestead`
+
+### Configuration
+
+Set folders and sites in: `%userprofile%\Homestead\Homestead.yaml`
+
+```
+---
+ip: "192.168.10.10"
+memory: 2048
+cpus: 2
+provider: virtualbox
+
+authorize: ~/.ssh/id_rsa.pub
+
+keys:
+    - ~/.ssh/id_rsa
+
+folders:
+    - map: ~/Documents\GitHub\refcard-backend
+      to: /home/vagrant/code/refcard-backend
+
+sites:
+    - map: refcard-backend.test
+      to: /home/vagrant/code/refcard-backend/public
+
+databases:
+    - homestead
+
+features:
+    - mariadb: false
+    - ohmyzsh: false
+    - webdriver: false
+
+# ports:
+#     - send: 50000
+#       to: 5000
+#     - send: 7777
+#       to: 777
+#       protocol: udp
+
+```
+
+
+
+
