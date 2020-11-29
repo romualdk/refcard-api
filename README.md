@@ -1,10 +1,52 @@
+# Stack
+
+* Mezzio
+
+  PSR-15 Middleware
+
+  https://docs.mezzio.dev/
+
+* mtymek/blast-base-url
+
+  Using Mezzio from subdirectory
+
+  https://docs.mezzio.dev/mezzio/v3/cookbook/using-a-base-path/#mtymek-blast-base-url
+
+* SleekDB
+
+  NoSQL database
+
+  https://github.com/rakibtg/SleekDB
+
+* Manual API tests
+
+  ARC - Advanced REST Client
+
+  https://github.com/advanced-rest-client/arc-electron/releases
+
+## Infos
+
+### PUT request body
+
+To enable PUT request body `BodyParamsMiddleware` is used in `config/pipeline.php`
+```
+$app->pipe(BodyParamsMiddleware::class);
+```
+
+### Use from subdirectory
+
+To use from subdirecotory `mtymek/blast-base-url` is used in `config/pipeline.php`
+```
+$app->pipe(\Blast\BaseUrl\BaseUrlMiddleware::class);
+```
+
 # Refcard API
 
 Based on https://github.com/gothinkster/realworld/tree/master/api
 
 1. [Leagues](#leagues)
-    1. [Get One](#get-one)
-    1. [Get All](#get-all)
+    1. [Get one](#get-one)
+    1. [Get all](#get-all)
     1. [Create](#create)
     1. [Update](#update)
     1. [Delete](#delete)
@@ -28,7 +70,7 @@ Failure returns `404 Not Found`
 
 ## Leagues
 
-### Get One
+### Get one
 
 *Request:*
 
@@ -55,7 +97,7 @@ GET /api/leagues/:id
 404 Not Found
 ```
 
-### Get All
+### Get all
 
 *Request:*
 

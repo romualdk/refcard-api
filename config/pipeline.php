@@ -47,6 +47,8 @@ return function (Application $app, MiddlewareFactory $factory, ContainerInterfac
     // ### Makes PUT work (parses application/x-www-form-urlencoded / json body) ###
     $app->pipe(BodyParamsMiddleware::class);
 
+    // ### Makes routing from subdirectory work
+    $app->pipe(\Blast\BaseUrl\BaseUrlMiddleware::class);
 
     // Register the routing middleware in the middleware pipeline.
     // This middleware registers the Mezzio\Router\RouteResult request attribute.
