@@ -52,6 +52,7 @@ return function (Application $app, MiddlewareFactory $factory, ContainerInterfac
 
     // Register the routing middleware in the middleware pipeline.
     // This middleware registers the Mezzio\Router\RouteResult request attribute.
+    $app->pipe(\Mezzio\Session\SessionMiddleware::class);
     $app->pipe(RouteMiddleware::class);
 
     // The following handle routing failures for common conditions:

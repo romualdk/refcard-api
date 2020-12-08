@@ -22,6 +22,9 @@ class ConfigProvider
         return [
             'dependencies' => $this->getDependencies(),
             'templates'    => $this->getTemplates(),
+            'authentication' => [
+                'redirect' => '/login',
+            ],
         ];
     }
 
@@ -35,10 +38,17 @@ class ConfigProvider
                 
             ],
             'factories'  => [
+                UserInterface::class => DefaultUserFactory::class,
+                
+                \App\Service\UserService::class => \App\Service\UserServiceFactory::class,
+                
                 \App\Service\SleekDBService::class => \App\Service\SleekDBServiceFactory::class,
                 \App\Service\LeagueService::class => \App\Service\LeagueServiceFactory::class,
+
+                Handler\UserHandler::class => Handler\UserHandlerFactory::class,
                 Handler\LeagueHandler::class => Handler\LeagueHandlerFactory::class,
                 Handler\TeamHandler::class => Handler\TeamHandlerFactory::class
+                
             ]
         ];
     }
