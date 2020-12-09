@@ -26,6 +26,8 @@ cd %tag%
 :: Install
 call composer install --no-dev --prefer-dist --optimize-autoloader
 
+:: TO DO - delete .gitignore files // but leave vendor??
+
 :: Zip
 cd ..
 tar -a -c -f %tag%.zip %tag%
