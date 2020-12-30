@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace App\Handler;
+namespace App\Handler\User;
 
 use Laminas\Diactoros\Response\JsonResponse;
 use Laminas\Diactoros\Response\EmptyResponse;
@@ -18,7 +18,7 @@ use Mezzio\Authentication\UserInterface;
 
 use App\Service\UserService;
 
-class UserHandler implements RequestHandlerInterface
+class RegisterHandler implements RequestHandlerInterface
 {
     const MIN_PASSWORD_LENGTH = 6;
     const MAX_PASSWORD_LENGTH = 64;
@@ -31,44 +31,13 @@ class UserHandler implements RequestHandlerInterface
 
     public function handle(ServerRequestInterface $request): ResponseInterface
     {
-      $method = $request->getMethod();
-
-      if(method_exists($this, $method)) {
-        return $this->$method($request);
-      }
-      else {
-        return new JsonResponse(null);
-      }
-    }
-
-    public function get(ServerRequestInterface $request): ResponseInterface
-    {
-      $id = $request->getAttribute('id');
-
-      $session  = $request->getAttribute('session');
-      $info = $session->get(UserInterface::class);
-
-      var_dump($info);
-
-      if (is_null($id)) {
-        $result = $this->userService->findAll();
-      }
-      else {
-        $result = $this->userService->findOne($id);
-      }
-
-      return $result ? new JsonResponse($result) : new EmptyResponse(404);
-    }
-
-    public function post(ServerRequestInterface $request): ResponseInterface
-    {
       $data = $request->getParsedBody();
 
-      if (!$data['email']) {
+      if (!array_key_exists('email', $data)) {
         return new JsonResponse(['error' => 'no email'], 404);
       }
 
-      if (!$data['password']) {
+      if (!array_key_exists('password', $data)) {
         return new JsonResponse(['error' => 'no password'], 404);
       }
 
@@ -105,19 +74,5 @@ class UserHandler implements RequestHandlerInterface
       $result = $this->userService->create($user);
 
       return $result ? new JsonResponse($result) : new EmptyResponse(404);
-    }
-
-    public function put(ServerRequestInterface $request): ResponseInterface
-    {
-      $id = $request->getAttribute('id');
-      $user = $request->getParsedBody();
-      $result = $this->userService->update($id, $user);
-
-      return $result ? new JsonResponse($result) : new EmptyResponse(404);
-    }
-
-    public function delete(ServerRequestInterface $request): ResponseInterface
-    {
-     
     }
 }

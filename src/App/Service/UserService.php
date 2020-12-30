@@ -26,7 +26,7 @@ class UserService implements UserRepositoryInterface
     }
 
     if (password_verify($password ?? '', $passwordHash)) {
-      return new DefaultUser($credential);
+      return new DefaultUser($credential, $this->getRoles($credential));
     }
 
     return null;
@@ -44,6 +44,22 @@ class UserService implements UserRepositoryInterface
       return $user[0]['password'];
   }
 
+  public function getRoles($email) {
+    $user = $this->store
+    ->where('email', '=', $email)
+    ->fetch();
+
+    if (!$user) {
+      return [];
+    }
+
+    if (!array_key_exists('roles', $user[0])) {
+      return [];
+    }
+
+    return $user[0]['roles'];
+  }
+
   public function exists($email) {
     $user = $this->store
       ->where('email', '=', $email)
@@ -57,7 +73,17 @@ class UserService implements UserRepositoryInterface
   }
 
   public function findOne($id) {
-    
+    $user = $this->store
+      ->where('_id', '=', $id)
+      ->fetch();
+
+    if (!$user) {
+      return null;
+    }
+
+    $user = $this->clear($user[0]);
+
+    return $user;
   }
 
   public function findAll() {
@@ -65,8 +91,7 @@ class UserService implements UserRepositoryInterface
       ->fetch();
     
     foreach($users as &$user) {
-      $user['id'] = (string)$user['_id'];
-      unset($user['_id']);
+      $user = $this->clear($user);
     }
 
     return $users;
@@ -79,17 +104,32 @@ class UserService implements UserRepositoryInterface
       return null;
     }
 
-    $user['id'] = (string)$user['_id'];
-    unset($user['_id']);
+    $user = $this->clear($user);
 
     return $user;
   }
 
   public function update($id, $user) {
-    
+    $user = $this->store->where('_id', '=', $id)->update($user);
+
+    if(!$user) {
+      return null;
+    }
+
+    $user = $this->clear($user);
+
+    return $user;
   }
 
   public function delete($id) {
-    
+    return $this->store->where('_id', '=', $id)->delete();
+  }
+
+  protected function clear($user) {
+    $user['id'] = (string)$user['_id'];
+    unset($user['_id']);
+    unset($user['password']);
+
+    return $user;
   }
 }

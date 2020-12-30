@@ -2,25 +2,25 @@
 
 declare(strict_types=1);
 
-namespace App\Handler;
+namespace App\Handler\League;
 
 use Mezzio\Router\RouterInterface;
 use Psr\Container\ContainerInterface;
 use Psr\Http\Server\RequestHandlerInterface;
 
-use App\Service\UserService;
+use App\Service\LeagueService;
 
-class UserHandlerFactory
+class LeagueHandlerFactory
 {
     public function __invoke(ContainerInterface $container): RequestHandlerInterface
     {
-        if (!$container->has(UserService::class)) {
+        if (!$container->has(LeagueService::class)) {
             throw new \Laminas\ServiceManager\Exception\ServiceNotFoundException(
-                'User service not found.'
+                'League service not found.'
             );
         }
-        $userService = $container->get(UserService::class);
+        $leagueService = $container->get(LeagueService::class);
 
-        return new UserHandler($userService);
+        return new LeagueHandler($leagueService);
     }
 }

@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace App\Handler;
+namespace App\Handler\User;
 
 use Mezzio\Authentication\Session\PhpSession;
 use Psr\Container\ContainerInterface;

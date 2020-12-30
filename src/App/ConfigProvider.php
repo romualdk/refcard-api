@@ -40,15 +40,19 @@ class ConfigProvider
             'factories'  => [
                 UserInterface::class => DefaultUserFactory::class,
                 
-                \App\Service\UserService::class => \App\Service\UserServiceFactory::class,
-                
-                \App\Service\SleekDBService::class => \App\Service\SleekDBServiceFactory::class,
-                \App\Service\LeagueService::class => \App\Service\LeagueServiceFactory::class,
+                Service\SleekDBService::class => Service\SleekDBServiceFactory::class,
+                Service\UserService::class => Service\UserServiceFactory::class,
+                Service\LeagueService::class => Service\LeagueServiceFactory::class,
 
-                Handler\UserHandler::class => Handler\UserHandlerFactory::class,
-                Handler\LeagueHandler::class => Handler\LeagueHandlerFactory::class,
-                Handler\TeamHandler::class => Handler\TeamHandlerFactory::class
-                
+                Handler\User\RegisterHandler::class => Handler\User\RegisterHandlerFactory::class,
+                Handler\User\LoginHandler::class => Handler\User\LoginHandlerFactory::class,
+                Handler\User\LogoutHandler::class => Handler\User\LogoutHandlerFactory::class,
+                Handler\User\UserHandler::class => Handler\User\UserHandlerFactory::class,
+
+                Handler\League\JoinLeagueHandler::class => Handler\League\JoinLeagueHandlerFactory::class,
+                Handler\League\LeagueHandler::class => Handler\League\LeagueHandlerFactory::class,
+
+                Handler\Team\TeamHandler::class => Handler\Team\TeamHandlerFactory::class
             ]
         ];
     }

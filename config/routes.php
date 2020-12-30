@@ -8,40 +8,75 @@ use Psr\Container\ContainerInterface;
 
 return static function (Application $app, MiddlewareFactory $factory, ContainerInterface $container): void {
 
-    $app->route(
-        '/api/login',
+    $app->route('/api/register',
         [
-            Mezzio\Session\SessionMiddleware::class,
-            App\Handler\LoginHandler::class,
+            App\Handler\User\RegisterHandler::class
         ],
-        ['GET', 'POST'],
-        'login'
+        ['POST'],
+        'user.register'
     );
 
-    $app->route(
-        '/api/logout',
+    $app->route('/api/login',
         [
             Mezzio\Session\SessionMiddleware::class,
-            App\Handler\LogoutHandler::class,
+            App\Handler\User\LoginHandler::class,
         ],
         ['GET', 'POST'],
-        'logout'
+        'user.login'
     );
 
-    $app->get('/api/users[/\d+]', [
-        Mezzio\Session\SessionMiddleware::class,
-        Mezzio\Authentication\AuthenticationMiddleware::class,
-        App\Handler\UserHandler::class,
-    ], 'users');
+    $app->route('/api/logout',
+        [
+            Mezzio\Session\SessionMiddleware::class,
+            App\Handler\User\LogoutHandler::class,
+        ],
+        ['GET', 'POST'],
+        'user.logout'
+    );
 
-    /*
-    $app->get('/api/users', [
-        Mezzio\Authentication\AuthenticationMiddleware::class,
-        App\Handler\UserHandler::class
-    ], 'users.get');*/
+    $app->route('/api/user/{id:\d+}',
+        [
+            Mezzio\Session\SessionMiddleware::class,
+            Mezzio\Authentication\AuthenticationMiddleware::class,
+            App\Handler\User\GetUserHandler::class,
+        ],
+        ['GET'],
+        'user.get'
+    );
 
+    $app->route('/api/league',
+        [
+            Mezzio\Session\SessionMiddleware::class,
+            Mezzio\Authentication\AuthenticationMiddleware::class,
+            App\Handler\League\CreateLeagueHandler::class,
+        ],
+        ['POST'],
+        'league.create'
+    );
 
-    /*$app->route('/api/users[/{id:\d+}]', App\Handler\UserHandler::class, ['POST', 'PUT', 'DELETE'], 'users');*/
-    $app->route('/api/leagues[/{id:\d+}]', App\Handler\LeagueHandler::class, ['GET', 'POST', 'PUT', 'DELETE'], 'leagues');
-    $app->route('/api/teams[/{id:\d+}]', App\Handler\TeamHandler::class, ['GET', 'POST', 'PUT', 'DELETE'], 'teams');
+    $app->route('/api/league/join/{id:\d+}',
+        [
+            Mezzio\Session\SessionMiddleware::class,
+            Mezzio\Authentication\AuthenticationMiddleware::class,
+            App\Handler\League\JoinLeagueHandler::class,
+        ],
+        ['POST'],
+        'league.join'
+    );
+
+    $app->route('/api/league/{id:\d+}',
+        [
+            App\Handler\League\GetLeagueHandler::class,
+        ],
+        ['GET'],
+        'league.get'
+    );
+
+    $app->route('/api/league',
+        [
+            App\Handler\League\ListLeaguesHandler::class,
+        ],
+        ['GET'],
+        'league.list'
+    );
 };
