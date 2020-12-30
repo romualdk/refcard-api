@@ -29,8 +29,19 @@ class GetUserHandler implements RequestHandlerInterface
     public function handle(ServerRequestInterface $request): ResponseInterface
     {
       $id = $request->getAttribute('id');
-      $result = $this->userService->findOne($id);
 
+      if (!is_null($id)) {
+        $result = $this->userService->findOne($id);
+      }
+      else {
+        $currentUser = $request->getAttribute('session')
+          ->get(UserInterface::class);
+
+        $username = $currentUser['username'];
+        
+        $result = $this->userService->findOneByUsername($username);
+      }
+      
       return $result ? new JsonResponse($result) : new EmptyResponse(404);
     }
 }

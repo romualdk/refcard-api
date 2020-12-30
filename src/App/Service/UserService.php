@@ -32,9 +32,9 @@ class UserService implements UserRepositoryInterface
     return null;
   }
 
-  public function getPasswordHash($email) {
+  public function getPasswordHash($username) {
     $user = $this->store
-      ->where('email', '=', $email)
+      ->where('username', '=', $username)
       ->fetch();
 
       if (!$user) {
@@ -44,9 +44,9 @@ class UserService implements UserRepositoryInterface
       return $user[0]['password'];
   }
 
-  public function getRoles($email) {
+  public function getRoles($username) {
     $user = $this->store
-    ->where('email', '=', $email)
+    ->where('username', '=', $username)
     ->fetch();
 
     if (!$user) {
@@ -60,9 +60,9 @@ class UserService implements UserRepositoryInterface
     return $user[0]['roles'];
   }
 
-  public function exists($email) {
+  public function exists($username) {
     $user = $this->store
-      ->where('email', '=', $email)
+      ->where('username', '=', $username)
       ->fetch();
 
       if (!$user) {
@@ -75,6 +75,20 @@ class UserService implements UserRepositoryInterface
   public function findOne($id) {
     $user = $this->store
       ->where('_id', '=', $id)
+      ->fetch();
+
+    if (!$user) {
+      return null;
+    }
+
+    $user = $this->clear($user[0]);
+
+    return $user;
+  }
+
+  public function findOneByUsername($username) {
+    $user = $this->store
+      ->where('username', '=', $username)
       ->fetch();
 
     if (!$user) {
@@ -110,15 +124,9 @@ class UserService implements UserRepositoryInterface
   }
 
   public function update($id, $user) {
-    $user = $this->store->where('_id', '=', $id)->update($user);
-
-    if(!$user) {
-      return null;
-    }
-
-    $user = $this->clear($user);
-
-    return $user;
+    return $user = $this->store
+      ->where('_id', '=', $id)
+      ->update($user);
   }
 
   public function delete($id) {

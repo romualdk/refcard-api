@@ -21,7 +21,7 @@ return static function (Application $app, MiddlewareFactory $factory, ContainerI
             Mezzio\Session\SessionMiddleware::class,
             App\Handler\User\LoginHandler::class,
         ],
-        ['GET', 'POST'],
+        ['POST'],
         'user.login'
     );
 
@@ -30,11 +30,11 @@ return static function (Application $app, MiddlewareFactory $factory, ContainerI
             Mezzio\Session\SessionMiddleware::class,
             App\Handler\User\LogoutHandler::class,
         ],
-        ['GET', 'POST'],
+        ['POST'],
         'user.logout'
     );
 
-    $app->route('/api/user/{id:\d+}',
+    $app->route('/api/user[/{id:\d+}]',
         [
             Mezzio\Session\SessionMiddleware::class,
             Mezzio\Authentication\AuthenticationMiddleware::class,
@@ -44,39 +44,13 @@ return static function (Application $app, MiddlewareFactory $factory, ContainerI
         'user.get'
     );
 
-    $app->route('/api/league',
+    $app->route('/api/user/{id:\d+}',
         [
             Mezzio\Session\SessionMiddleware::class,
             Mezzio\Authentication\AuthenticationMiddleware::class,
-            App\Handler\League\CreateLeagueHandler::class,
+            App\Handler\User\UpdateUserHandler::class,
         ],
         ['POST'],
-        'league.create'
-    );
-
-    $app->route('/api/league/join/{id:\d+}',
-        [
-            Mezzio\Session\SessionMiddleware::class,
-            Mezzio\Authentication\AuthenticationMiddleware::class,
-            App\Handler\League\JoinLeagueHandler::class,
-        ],
-        ['POST'],
-        'league.join'
-    );
-
-    $app->route('/api/league/{id:\d+}',
-        [
-            App\Handler\League\GetLeagueHandler::class,
-        ],
-        ['GET'],
-        'league.get'
-    );
-
-    $app->route('/api/league',
-        [
-            App\Handler\League\ListLeaguesHandler::class,
-        ],
-        ['GET'],
-        'league.list'
+        'user.update'
     );
 };

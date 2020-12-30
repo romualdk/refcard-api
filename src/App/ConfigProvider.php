@@ -47,7 +47,8 @@ class ConfigProvider
                 Handler\User\RegisterHandler::class => Handler\User\RegisterHandlerFactory::class,
                 Handler\User\LoginHandler::class => Handler\User\LoginHandlerFactory::class,
                 Handler\User\LogoutHandler::class => Handler\User\LogoutHandlerFactory::class,
-                Handler\User\UserHandler::class => Handler\User\UserHandlerFactory::class,
+                Handler\User\GetUserHandler::class => Handler\User\GetUserHandlerFactory::class,
+                Handler\User\UpdateUserHandler::class => Handler\User\UpdateUserHandlerFactory::class,
 
                 Handler\League\JoinLeagueHandler::class => Handler\League\JoinLeagueHandlerFactory::class,
                 Handler\League\LeagueHandler::class => Handler\League\LeagueHandlerFactory::class,

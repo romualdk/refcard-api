@@ -40,7 +40,15 @@ To use from subdirecotory `mtymek/blast-base-url` is used in `config/pipeline.ph
 $app->pipe(\Blast\BaseUrl\BaseUrlMiddleware::class);
 ```
 
+
 # Refcard API
+
+
+[API.md]
+
+
+
+
 
 Based on https://github.com/gothinkster/realworld/tree/master/api
 
