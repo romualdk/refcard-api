@@ -19,8 +19,16 @@ class UpdateUserHandlerFactory
                 'User service not found.'
             );
         }
-        $userService = $container->get(UserService::class);
 
-        return new UpdateUserHandler($userService);
+        $config = $container->has('config') ? $container->get('config') : [];
+
+        if (is_null($config) || !array_key_exists('avatars', $config)) {
+            throw new InvalidArgumentException('Avatars configuration not able to be retrieved.') ;
+        }
+
+        $userService = $container->get(UserService::class);
+        $avatarDirectory = $config['avatars']['data_dir'];
+
+        return new UpdateUserHandler($userService, $avatarDirectory);
     }
 }

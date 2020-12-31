@@ -8,6 +8,14 @@ use Psr\Container\ContainerInterface;
 
 return static function (Application $app, MiddlewareFactory $factory, ContainerInterface $container): void {
 
+    $app->route('/api/admin/reset',
+        [
+            App\Handler\Admin\ResetHandler::class
+        ],
+        ['POST'],
+        'admin.reset'
+    );
+
     $app->route('/api/register',
         [
             App\Handler\User\RegisterHandler::class

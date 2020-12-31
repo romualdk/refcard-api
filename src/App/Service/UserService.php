@@ -11,10 +11,19 @@ use Mezzio\Authentication\DefaultUser;
 
 class UserService implements UserRepositoryInterface
 {
-  private $store;
 
-  public function __construct(SleekDBService $sleekDB) {
-    $this->store = $sleekDB->getStore('users');
+  private $sleekDB;
+  private $store;
+  private $avatarDirectory;
+
+  public function __construct(SleekDBService $sleekDB, $avatarDirectory) {
+    $this->sleekDB = $sleekDB;
+    $this->getStore();
+    $this->avatarDirectory = $avatarDirectory;
+  }
+
+  protected function getStore() {
+    $this->store = $this->sleekDB->getStore('users');
   }
 
   public function authenticate(string $credential, ?string $password = null): ?UserInterface
@@ -139,5 +148,60 @@ class UserService implements UserRepositoryInterface
     unset($user['password']);
 
     return $user;
+  }
+
+  public function resetService() {
+    // Reset store
+    $this->store->deleteStore();
+    $this->getStore();
+
+    // Create admin user
+    $username = 'admin';
+    $password = $this->randomPassword();
+
+    $admin = [
+      'username' => $username,
+      'password' => password_hash($password, PASSWORD_DEFAULT),
+      'name' => null,
+      'surname' => null,
+      'avatar' => null,
+      'roles' => ['admin']
+    ];
+
+    $this->create($admin);
+
+    // Reset avatars
+    $dir = $this->avatarDirectory;
+
+    if (is_dir($dir)) {
+      $files = array_diff(scandir($dir), array('.','..'));
+
+      foreach ($files as $file) {
+        unlink($dir . '/' . $file);
+      }
+    }
+    else {
+      mkdir($dir);
+    }
+
+    return [
+      'result' => true,
+      'admin' => [
+        'username' => $username,
+        'password' => $password
+      ]
+    ];
+  }
+
+  protected function randomPassword($length = 10) {
+      $characters = '0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ';
+      $charactersLength = strlen($characters);
+      $randomString = '';
+
+      for ($i = 0; $i < $length; $i++) {
+          $randomString .= $characters[rand(0, $charactersLength - 1)];
+      }
+      return $randomString;
+
   }
 }

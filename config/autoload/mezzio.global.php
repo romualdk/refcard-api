@@ -22,4 +22,12 @@ return [
             'template_error' => 'error::error',
         ],
     ],
+
+    'sleekdb' => [
+        'data_dir' => 'data/sleekdb'
+    ],
+
+    'avatars' => [
+        'data_dir' => 'data/avatar'
+    ]
 ];

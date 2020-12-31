@@ -22,9 +22,12 @@ use App\Service\UserService;
 class UpdateUserHandler implements RequestHandlerInterface
 {
     private $userService;
+    private $avatarDirectory;
 
-    public function __construct(UserService $userService) {
+    public function __construct(UserService $userService, $avatarDirectory) {
       $this->userService = $userService;
+      $this->avatarDirectory = $avatarDirectory;
+
     }
 
     public function handle(ServerRequestInterface $request): ResponseInterface
@@ -106,7 +109,7 @@ class UpdateUserHandler implements RequestHandlerInterface
         $filename = preg_replace('/[^a-zA-Z0-9]+/', '', $user['username']);
         $filename .= '.' . $validMediaTypes[$mediaType];
 
-        $dir = 'data/avatar/';
+        $dir = $this->avatarDirectory . '/';
 
         if (!is_null($user['avatar'])) {
           $oldFilePath = $dir . $user['avatar'];

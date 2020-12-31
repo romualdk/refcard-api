@@ -44,6 +44,8 @@ class ConfigProvider
                 Service\UserService::class => Service\UserServiceFactory::class,
                 Service\LeagueService::class => Service\LeagueServiceFactory::class,
 
+                Handler\Admin\ResetHandler::class => Handler\Admin\ResetHandlerFactory::class,
+
                 Handler\User\RegisterHandler::class => Handler\User\RegisterHandlerFactory::class,
                 Handler\User\LoginHandler::class => Handler\User\LoginHandlerFactory::class,
                 Handler\User\LogoutHandler::class => Handler\User\LogoutHandlerFactory::class,

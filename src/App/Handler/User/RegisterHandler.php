@@ -29,9 +29,11 @@ class RegisterHandler implements RequestHandlerInterface
     const MAX_IMAGE_SIZE = 1*1024*1024;
 
     private $userService;
+    private $avatarDirectory;
 
-    public function __construct(UserService $userService) {
+    public function __construct(UserService $userService, $avatarDirectory) {
       $this->userService = $userService;
+      $this->avatarDirectory = $avatarDirectory;
     }
 
     public function handle(ServerRequestInterface $request): ResponseInterface
@@ -125,7 +127,7 @@ class RegisterHandler implements RequestHandlerInterface
         $this->userService->update($id, ['avatar' => $filename]);
         $result['avatar'] = $filename;
 
-        $targetPath = 'data/avatar/' . $filename;
+        $targetPath = $this->avatarDirectory . '/' . $filename;
         $avatar->moveTo($targetPath);
        
       }
