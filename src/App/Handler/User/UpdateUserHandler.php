@@ -46,7 +46,7 @@ class UpdateUserHandler implements RequestHandlerInterface
         return new JsonResponse(['error' => 'not authorized'], 404);
       }
 
-      $user = [];
+      $updateable = [];
       $data = $request->getParsedBody();
 
       if (array_key_exists('password', $data)) {
@@ -65,19 +65,19 @@ class UpdateUserHandler implements RequestHandlerInterface
           return new JsonResponse(['error' => $messages[$first_key]], 404);
         }
 
-        $user['password'] = password_hash($data['password'], PASSWORD_DEFAULT);
+        $updateable['password'] = password_hash($data['password'], PASSWORD_DEFAULT);
       }
 
       if (array_key_exists('name', $data)
         && strlen($data['name']) >= RegisterHandler::MIN_STRING_LENGTH
         && strlen($data['name']) <= RegisterHandler::MAX_STRING_LENGTH) {
-        $user['name'] = $data['name'];
+        $updateable['name'] = $data['name'];
       }
 
       if (array_key_exists('surname', $data)
         && strlen($data['surname']) >= RegisterHandler::MIN_STRING_LENGTH
         && strlen($data['surname']) < RegisterHandler::MAX_STRING_LENGTH) {
-        $user['surname'] = $data['surname'];
+        $updateable['surname'] = $data['surname'];
       }
 
       $files = $request->getUploadedFiles();
@@ -106,29 +106,23 @@ class UpdateUserHandler implements RequestHandlerInterface
         $filename = preg_replace('/[^a-zA-Z0-9]+/', '', $user['username']);
         $filename .= '.' . $validMediaTypes[$mediaType];
 
-        $result = $this->userService->findOne($id);
-
-        if(!$result) {
-          return new EmptyResponse(404);
-        }
-
         $dir = 'data/avatar/';
 
-        if (!is_null($result['avatar'])) {
-          $oldFilePath = $dir . $result['avatar'];
+        if (!is_null($user['avatar'])) {
+          $oldFilePath = $dir . $user['avatar'];
 
           if (file_exists($oldFilePath)) {
             unlink($oldFilePath);
           }
         }
         
-        $newFilename = $result['id'] . '_' . $filename;
+        $newFilename = $user['id'] . '_' . $filename;
         $newFilePath = $dir . $newFilename;
         $avatar->moveTo($newFilePath);
-        $user['avatar'] = $newFilePath;
+        $updateable['avatar'] = $newFilePath;
       }
       
-      $result = $this->userService->update($id, $user);
+      $result = $this->userService->update($id, $updateable);
 
       return $result ? new EmptyResponse(200) : new EmptyResponse(404);
     }
